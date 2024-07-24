@@ -9,13 +9,19 @@ import org.springframework.stereotype.Service;
 
 import com.javaweb.model.BuildingDTO;
 import com.javaweb.repository.BuildingRepository;
+import com.javaweb.repository.DistrictRepository;
 import com.javaweb.repository.entity.BuildingEntity;
+import com.javaweb.repository.entity.DistrictEntity;
 import com.javaweb.service.BuildingService;
 
 @Service
 public class BuildingServiceImpl implements BuildingService {
 	@Autowired
 	private BuildingRepository buildingRepository;
+	
+	@Autowired
+	private DistrictRepository districtRepository;
+
 
 	@Override
 	public List<BuildingDTO> findAll(Map<String,Object> params,List<String> typeCode) {
@@ -25,8 +31,8 @@ public class BuildingServiceImpl implements BuildingService {
 		for (BuildingEntity item : buildingEntities) {
 			BuildingDTO building = new BuildingDTO();
 			building.setName(item.getName());
-			building.setNumberofbasement(item.getNumberofbasement());
-			building.setAddress(item.getWard() + "," + item.getStreet());
+			DistrictEntity districtEntity = districtRepository.findNameById(item.getDistrictid());
+			building.setAddress(item.getWard() + "," + item.getStreet() + " " + districtEntity.getName());
 			result.add(building);
 		}
 
