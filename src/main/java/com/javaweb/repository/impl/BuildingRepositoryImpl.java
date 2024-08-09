@@ -12,14 +12,12 @@ import org.springframework.stereotype.Repository;
 
 import com.javaweb.repository.BuildingRepository;
 import com.javaweb.repository.entity.BuildingEntity;
+import com.javaweb.utils.ConnectionJdbcUtil;
 import com.javaweb.utils.NumberUtil;
 import com.javaweb.utils.StringUtil;
 
 @Repository
 public class BuildingRepositoryImpl implements BuildingRepository {
-	private static final String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";
-	private static final String USER = "root";
-	private static final String PASS = "123456789";
 
 	public static void joinTable(Map<String, Object> params, List<String> typeCode, StringBuilder sql) {
 		String staffId = (String) params.get("staffId");
@@ -64,7 +62,6 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 
 		String rentAreaTo = (String) params.get("areaTo");
 		String rentAreaFrom = (String) params.get("areaFrom");
-
 		if (StringUtil.checkString(rentAreaFrom) == true || StringUtil.checkString(rentAreaTo) == true) {
 			if (StringUtil.checkString(rentAreaFrom)) {
 				where.append(" AND rentarea.value >= " + rentAreaFrom);
@@ -88,10 +85,10 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 
 		if (typeCode != null && typeCode.size() != 0) {
 			List<String> code = new ArrayList<String>();
-			for(String item : typeCode) {
+			for (String item : typeCode) {
 				code.add("'" + item + "'");
 			}
-			where.append(" AND renttype.code IN(" + String.join(",", code ) + ") ");
+			where.append(" AND renttype.code IN(" + String.join(",", code) + ") ");
 		}
 	}
 
@@ -111,7 +108,7 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 
 		System.out.println(sql);
 		try {
-			Connection conn = DriverManager.getConnection(DB_URL, USER, PASS);
+			Connection conn = ConnectionJdbcUtil.getConnection();
 			Statement stmt = conn.createStatement();
 			ResultSet rs = stmt.executeQuery(sql.toString());
 
@@ -130,7 +127,6 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 				buildingEntity.setManagerPhoneNumber(rs.getString("b.managerphonenumber"));
 				result.add(buildingEntity);
 			}
-
 			System.out.println("OK SQL");
 		} catch (Exception e) {
 			System.out.println("NO SQL");

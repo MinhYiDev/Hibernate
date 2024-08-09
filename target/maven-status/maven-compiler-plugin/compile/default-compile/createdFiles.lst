@@ -1,8 +1,0 @@
-com\javaweb\model\BuildingDTO.class
-com\javaweb\repository\entity\BuildingEntity.class
-com\javaweb\Application.class
-com\javaweb\service\impl\BuildingServiceImpl.class
-com\javaweb\api\BuildingAPI.class
-com\javaweb\service\BuildingService.class
-com\javaweb\repository\impl\BuildingRepositoryImpl.class
-com\javaweb\repository\BuildingRepository.class
