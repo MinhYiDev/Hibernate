@@ -7,6 +7,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Repository;
 
@@ -28,13 +29,13 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 			sql.append(" INNER JOIN buildingrenttype ON b.id = buildingrenttype.buildingid ");
 			sql.append(" INNER JOIN renttype ON renttype.id = buildingrenttype.renttypeid ");
 		}
-
-		String rentAreaTo = (String) params.get("areaTo");
-		String rentAreaFrom = (String) params.get("areaFrom");
-
-		if (StringUtil.checkString(rentAreaTo) == true || StringUtil.checkString(rentAreaFrom) == true) {
-			sql.append(" INNER JOIN rentarea ON rentarea.buildingid = b.id ");
-		}
+//
+//		String rentAreaTo = (String) params.get("areaTo");
+//		String rentAreaFrom = (String) params.get("areaFrom");
+//
+//		if (StringUtil.checkString(rentAreaTo) == true || StringUtil.checkString(rentAreaFrom) == true) {
+//			sql.append(" INNER JOIN rentarea ON rentarea.buildingid = b.id ");
+//		}
 
 	}
 
@@ -63,12 +64,16 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 		String rentAreaTo = (String) params.get("areaTo");
 		String rentAreaFrom = (String) params.get("areaFrom");
 		if (StringUtil.checkString(rentAreaFrom) == true || StringUtil.checkString(rentAreaTo) == true) {
+			where.append(" AND EXISTS (SELECT * FROM rentarea r WHERE b.id = r.buildingid ");
 			if (StringUtil.checkString(rentAreaFrom)) {
-				where.append(" AND rentarea.value >= " + rentAreaFrom);
+				where.append(" AND r.value >= " + rentAreaFrom);
+		
 			}
 			if (StringUtil.checkString(rentAreaTo)) {
-				where.append(" AND rentarea.value <= " + rentAreaTo);
+				where.append(" AND r.value <= " + rentAreaTo);
 			}
+			
+			where.append(" ) ");
 		}
 
 		String rentPriceTo = (String) params.get("rentPriceTo");
@@ -83,12 +88,22 @@ public class BuildingRepositoryImpl implements BuildingRepository {
 			}
 		}
 
+		// java 7
 		if (typeCode != null && typeCode.size() != 0) {
 			List<String> code = new ArrayList<String>();
 			for (String item : typeCode) {
 				code.add("'" + item + "'");
 			}
 			where.append(" AND renttype.code IN(" + String.join(",", code) + ") ");
+		}
+		
+		// java 8
+		if (typeCode != null && typeCode.size() != 0) {
+			where.append(" AND (");
+			String sql = typeCode.stream().map(it -> "renttype.code LIKE" + "'%" + it + "%'").collect(Collectors.joining(" OR "));
+			where.append(sql);
+			where.append(" ) ");
+				
 		}
 	}
 
