@@ -4,7 +4,12 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
+
+@PropertySource("classpath:application.properties")
 public class ConnectionJdbcUtil {
+	@Value("${}")
 	private static final String DB_URL = "jdbc:mysql://localhost:3306/estatebasic";
 	private static final String USER = "root";
 	private static final String PASS = "123456789";
