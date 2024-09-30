@@ -1,17 +1,48 @@
 package com.javaweb.repository.entity;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+
+@Entity
+@Table(name = "building")
 public class BuildingEntity {
+	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column(name = "name")
 	private String name;
+
+	@Column(name = "ward")
 	private String ward;
+
+	@Column(name = "street")
 	private String street;
-	private Long districtid;
+
+	@Column(name = "districtid")
+	private Long districtId;
+
+	@Column(name = "managerName")
 	private String managerName;
+
+	@Column(name = "managerphonenumber")
 	private String managerPhoneNumber;
+
+	@Column(name = "floorarea")
 	private Long floorArea;
-	private String emptyArea;
+
+	@Column(name = "rentprice")
 	private Long rentPrice;
+
+	@Column(name = "servicefee")
 	private String serviceFee;
+
+	@Column(name = "brokeragefee")
 	private Long brokerageFee;
 
 	public Long getId() {
@@ -22,12 +53,12 @@ public class BuildingEntity {
 		this.id = id;
 	}
 
-	public Long getDistrictid() {
-		return districtid;
+	public Long getDistrictId() {
+		return districtId;
 	}
 
-	public void setDistrictid(Long districtid) {
-		this.districtid = districtid;
+	public void setDistrictid(Long districtId) {
+		this.districtId = districtId;
 	}
 
 	public String getManagerName() {
@@ -52,14 +83,6 @@ public class BuildingEntity {
 
 	public void setFloorArea(Long floorArea) {
 		this.floorArea = floorArea;
-	}
-
-	public String getEmptyArea() {
-		return emptyArea;
-	}
-
-	public void setEmptyArea(String emptyArea) {
-		this.emptyArea = emptyArea;
 	}
 
 	public Long getRentPrice() {

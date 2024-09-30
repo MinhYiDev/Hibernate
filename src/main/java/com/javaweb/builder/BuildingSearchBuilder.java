@@ -8,7 +8,7 @@ public class BuildingSearchBuilder {
 	private Long floorArea;
 	private String ward;
 	private String street;
-	private String districtCode;
+	private Long districtId;
 	private Integer numberOfBasement;
 	private List<String> typeCode = new ArrayList<String>();
 	private String managerName;
@@ -24,7 +24,7 @@ public class BuildingSearchBuilder {
 		this.floorArea = builder.floorArea;
 		this.ward = builder.ward;
 		this.street = builder.street;
-		this.districtCode = builder.districtCode;
+		this.districtId = builder.districtId;
 		this.numberOfBasement = builder.numberOfBasement;
 		this.typeCode = builder.typeCode;
 		this.managerName = builder.managerName;
@@ -52,8 +52,8 @@ public class BuildingSearchBuilder {
 		return street;
 	}
 
-	public String getDistrictCode() {
-		return districtCode;
+	public Long getDistrictId() {
+		return districtId;
 	}
 
 	public Integer getNumberOfBasement() {
@@ -97,7 +97,7 @@ public class BuildingSearchBuilder {
 		private Long floorArea;
 		private String ward;
 		private String street;
-		private String districtCode;
+		private Long districtId;
 		private Integer numberOfBasement;
 		private List<String> typeCode = new ArrayList<String>();
 		private String managerName;
@@ -128,8 +128,8 @@ public class BuildingSearchBuilder {
 			return this;
 		}
 
-		public Builder setDistrictCode(String districtCode) {
-			this.districtCode = districtCode;
+		public Builder setDistrictId(Long districtId) {
+			this.districtId = districtId;
 			return this;
 		}
 
