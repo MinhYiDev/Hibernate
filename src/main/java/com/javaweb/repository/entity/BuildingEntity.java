@@ -1,16 +1,23 @@
 package com.javaweb.repository.entity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "building")
 public class BuildingEntity {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -23,9 +30,9 @@ public class BuildingEntity {
 
 	@Column(name = "street")
 	private String street;
-
-	@Column(name = "districtid")
-	private Long districtId;
+	
+//	@Column(name = "districtid")
+//	private Long districtId;
 
 	@Column(name = "managerName")
 	private String managerName;
@@ -38,6 +45,13 @@ public class BuildingEntity {
 
 	@Column(name = "rentprice")
 	private Long rentPrice;
+
+	@ManyToOne
+	@JoinColumn(name = "districtid")
+	private DistrictEntity district;
+
+	@OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+	private List<RentAreaEntity> items = new ArrayList<RentAreaEntity>();
 
 	@Column(name = "servicefee")
 	private String serviceFee;
@@ -53,13 +67,13 @@ public class BuildingEntity {
 		this.id = id;
 	}
 
-	public Long getDistrictId() {
-		return districtId;
-	}
-
-	public void setDistrictid(Long districtId) {
-		this.districtId = districtId;
-	}
+//	public Long getDistrictId() {
+//		return districtId;
+//	}
+//
+//	public void setDistrictid(Long districtId) {
+//		this.districtId = districtId;
+//	}
 
 	public String getManagerName() {
 		return managerName;
@@ -131,6 +145,26 @@ public class BuildingEntity {
 
 	public void setStreet(String street) {
 		this.street = street;
+	}
+
+	public void setDistrict(DistrictEntity district) {
+		this.district = district;
+	}
+
+//	public void setDistrictId(Long districtId) {
+//		this.districtId = districtId;
+//	}
+
+	public List<RentAreaEntity> getItems() {
+		return items;
+	}
+
+	public void setItems(List<RentAreaEntity> items) {
+		this.items = items;
+	}
+
+	public DistrictEntity getDistrict() {
+		return district;
 	}
 
 }
